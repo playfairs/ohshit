@@ -3,7 +3,7 @@ name = "ohshit"
 version = "0.1.0"
 edition = "2024"
 description = "Brutally honest Rust logging and diagnostics"
-license = "MIT"
+license = "Unlicense"
 readme = "README.rst"
 
 [dependencies]
