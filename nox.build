@@ -1,0 +1,14 @@
+project "ohshit" {
+    version = file("./VERSION")
+    description = "OhSh*t logging and diagnostics library."
+    version_files = ["Cargo.toml", "VERSION"]
+
+    rust_library "ohshit_lib" {
+        sources = ["src/lib.rs"]
+    }
+
+    rust_executable "ohshit" {
+        sources = ["src/bin/ohshit.rs"]
+        dependencies = ["ohshit_lib"]
+    }
+}
