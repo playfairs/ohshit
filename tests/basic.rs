@@ -11,7 +11,10 @@ fn diagnostic_tracks_real_failure_details() {
 
     assert_eq!(diagnostic.headline(), "Could not bind to 127.0.0.1:8000");
     assert_eq!(diagnostic.cause(), Some("Address already in use"));
-    assert_eq!(diagnostic.reason(), Some("Another process is already listening on port 8000."));
+    assert_eq!(
+        diagnostic.reason(),
+        Some("Another process is already listening on port 8000.")
+    );
     assert_eq!(diagnostic.action(), Some("lsof -i :8000"));
 }
 
@@ -39,11 +42,14 @@ fn logger_records_level_and_filtering() {
 fn record_supports_context_and_location() {
     let record = Record::new(Level::Warn, "listener failed")
         .with_context("port", 8000)
-        .with_location(ohshit::Location::new("examples/basic.rs", 42));
+        .with_location(ohshit::Location::new("src/record/record.rs", 42));
 
     assert_eq!(record.level(), Level::Warn);
     assert_eq!(record.message(), "listener failed");
-    assert_eq!(record.location().map(|loc| loc.file()), Some("examples/basic.rs"));
+    assert_eq!(
+        record.location().map(|loc| loc.file()),
+        Some("src/record/record.rs")
+    );
     assert_eq!(record.location().map(|loc| loc.line()), Some(42));
     assert_eq!(record.context().entries().len(), 1);
 }
