@@ -1,6 +1,6 @@
 [package]
 name = "ohshit"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Brutally honest Rust logging and diagnostics"
 license = "Unlicense"
