@@ -14,10 +14,10 @@ mod sink;
 pub use diagnostic::{Action, Cause, Diagnostic, Location};
 pub use error::{OhShitError, Result};
 pub use filter::Filter;
-pub use formatter::TerminalFormatter;
+pub use formatter::{Formatter, FormatterConfig, TerminalFormatter};
 pub use level::Level;
 pub use logger::{Logger, LoggerBuilder, LoggerConfig};
-pub use macros::{__log_diagnostic, __log_record};
+pub use macros::{__log_diagnostic, __log_diagnostic_target, __log_record};
 pub use record::{Context, Record, RecordMetadata};
 pub use sink::{ConsoleSink, MemorySink, Sink};
 

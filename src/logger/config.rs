@@ -8,6 +8,7 @@ pub struct LoggerConfig {
     pub colors: bool,
     pub show_location: bool,
     pub show_timestamp: bool,
+    pub show_target: bool,
 }
 
 impl LoggerConfig {
@@ -18,6 +19,16 @@ impl LoggerConfig {
             colors: false,
             show_location: true,
             show_timestamp: true,
+            show_target: true,
+        }
+    }
+
+    pub fn formatter_config(&self) -> crate::FormatterConfig {
+        crate::FormatterConfig {
+            colors: self.colors,
+            show_location: self.show_location,
+            show_timestamp: self.show_timestamp,
+            show_target: self.show_target,
         }
     }
 }

@@ -98,8 +98,16 @@ impl Logger {
     }
 
     pub fn ohshit(&self, diagnostic: Diagnostic) {
-        let record = Record::new(Level::OhShit, diagnostic.headline().to_string())
+        self.ohshit_target("ohshit", diagnostic);
+    }
+
+    pub fn ohshit_target(&self, target: impl Into<String>, diagnostic: Diagnostic) {
+        let mut record = Record::new(Level::OhShit, diagnostic.headline().to_string())
+            .with_target(target)
             .with_diagnostic(diagnostic.clone());
+        if let Some(location) = diagnostic.location().cloned() {
+            record = record.with_location(location);
+        }
         self.log(record);
     }
 }

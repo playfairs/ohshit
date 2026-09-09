@@ -7,6 +7,7 @@ use crate::record::metadata::RecordMetadata;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Record {
     level: Level,
+    target: String,
     message: String,
     metadata: RecordMetadata,
     context: Context,
@@ -16,6 +17,7 @@ impl Record {
     pub fn new(level: Level, message: impl Into<String>) -> Self {
         Self {
             level,
+            target: "ohshit".to_string(),
             message: message.into(),
             metadata: RecordMetadata::new(),
             context: Context::new(),
@@ -24,6 +26,15 @@ impl Record {
 
     pub fn level(&self) -> Level {
         self.level
+    }
+
+    pub fn target(&self) -> &str {
+        &self.target
+    }
+
+    pub fn with_target(mut self, target: impl Into<String>) -> Self {
+        self.target = target.into();
+        self
     }
 
     pub fn message(&self) -> &str {

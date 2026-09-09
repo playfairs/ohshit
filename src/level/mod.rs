@@ -17,6 +17,17 @@ impl Level {
     pub fn is_at_least(self, other: Self) -> bool {
         self >= other
     }
+
+    pub fn color_code(self) -> &'static str {
+        match self {
+            Self::Trace => "90",
+            Self::Debug => "36",
+            Self::Info => "32",
+            Self::Warn => "33",
+            Self::Error => "31",
+            Self::OhShit => "35",
+        }
+    }
 }
 
 impl fmt::Display for Level {

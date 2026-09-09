@@ -1,19 +1,27 @@
 use std::sync::{Arc, Mutex};
 
-use crate::formatter::TerminalFormatter;
+use crate::formatter::{Formatter, FormatterConfig, TerminalFormatter};
 use crate::record::Record;
 use crate::sink::Sink;
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct ConsoleSink {
-    formatter: TerminalFormatter,
+    formatter: Arc<dyn Formatter>,
+    config: FormatterConfig,
     output: Arc<Mutex<Vec<String>>>,
+}
+
+impl Default for ConsoleSink {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl Clone for ConsoleSink {
     fn clone(&self) -> Self {
         Self {
-            formatter: self.formatter.clone(),
+            formatter: Arc::clone(&self.formatter),
+            config: self.config.clone(),
             output: Arc::clone(&self.output),
         }
     }
@@ -21,7 +29,23 @@ impl Clone for ConsoleSink {
 
 impl ConsoleSink {
     pub fn new() -> Self {
-        Self::default()
+        Self {
+            formatter: Arc::new(TerminalFormatter::default()),
+            config: FormatterConfig::default(),
+            output: Arc::new(Mutex::new(Vec::new())),
+        }
+    }
+
+    pub fn with_formatter(formatter: Arc<dyn Formatter>) -> Self {
+        Self {
+            formatter,
+            ..Self::new()
+        }
+    }
+
+    pub fn with_config(mut self, config: FormatterConfig) -> Self {
+        self.config = config;
+        self
     }
 
     pub fn entries(&self) -> Vec<String> {
@@ -31,8 +55,9 @@ impl ConsoleSink {
 
 impl Sink for ConsoleSink {
     fn emit(&self, record: Record) {
-        let rendered = self.formatter.format_record(&record);
+        let rendered = self.formatter.format_record(&record, &self.config);
+        let mut output = self.output.lock().unwrap();
         println!("{rendered}");
-        self.output.lock().unwrap().push(rendered);
+        output.push(rendered);
     }
 }
