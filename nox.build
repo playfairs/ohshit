@@ -7,8 +7,4 @@ project "ohshit" {
         sources = ["src/lib.rs"]
     }
 
-    rust_executable "ohshit" {
-        sources = ["src/bin/ohshit.rs"]
-        dependencies = ["ohshit_lib"]
-    }
 }
